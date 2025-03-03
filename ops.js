@@ -8,21 +8,23 @@
 function BetterTable (parent,data) {
     this.parent = document.getElementById(parent);
     this.instance = document.querySelectorAll(`#${parent} > table`).length;
-    this.data = data;
+    this.combined = data;
+    this.dataCells = this.data[0][0] == ' '? this.data.slice(1).map(z => z.slice(1)) : this.data;
+    this.labels = this.data[0][0] == ' '? [this.data[0],[...this.data.map(x => x[0])]] : null;
     /**
      * Create the table based on input or current data.
      * @param {array} data 2D array || optional
      */
-    this.draw = (data = this.data) => {
+    this.draw = (data = this.combined) => {
         document.querySelector(`#myTable${this.instance}`) == null? null : document.querySelector(`#myTable${this.instance}`).remove();
-        this.data = data;
+        this.combined= data;
         let tab = document.createElement('table');
-        for (let a = 0; a < this.data.length; a++) {
+        for (let a = 0; a < this.combined.length; a++) {
             let r = document.createElement('tr');
-            for (let b = 0; b < this.data[a].length; b++) {
+            for (let b = 0; b < this.combined[a].length; b++) {
                 let cell = document.createElement('td');
-                cell.textContent = `${this.data[a][b]}`;
-                if (this.data[0][0] == ' ') {   //Check if initial cell is a space. This suggests the first row and column are labels.
+                cell.textContent = `${this.combined[a][b]}`;
+                if (this.combined[0][0] == ' ') {   //Check if initial cell is a space. This suggests the first row and column are labels.
                     if (a == 0 || b == 0) {
                         a == 0 && b == 0? cell.classList.add('void') : cell.classList.add('label');
                     }
@@ -64,9 +66,9 @@ const fixObject = (object) => {
     return res;
 }
 
-
+let J;
 
 document.addEventListener('DOMContentLoaded',() => {
-    let J = new BetterTable('upper',fixObject(O))
+    J = new BetterTable('upper',fixObject(O))
     J.draw()
 })
