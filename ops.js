@@ -9,8 +9,8 @@ function BetterTable (parent,data) {
     this.parent = document.getElementById(parent);
     this.instance = document.querySelectorAll(`#${parent} > table`).length;
     this.combined = data;
-    this.dataCells = this.data[0][0] == ' '? this.data.slice(1).map(z => z.slice(1)) : this.data;
-    this.labels = this.data[0][0] == ' '? [this.data[0],[...this.data.map(x => x[0])]] : null;
+    this.dataCells = this.combined[0][0] == ' '? this.combined.slice(1).map(z => z.slice(1)) : this.combined;
+    this.labels = this.combined[0][0] == ' '? [this.combined[0],[...this.combined.map(x => x[0])]] : null;
     /**
      * Create the table based on input or current data.
      * @param {array} data 2D array || optional
